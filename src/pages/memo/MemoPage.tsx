@@ -1,12 +1,20 @@
 import React from 'react';
 import MemoContainer from "../../features/memo/MemoContainer";
-import {atom} from "recoil";
+import Layout, {Content, Header} from "antd/lib/layout/layout";
+import {Menu} from 'antd';
 
-const MemoPage =()=> {
+const MemoPage = () => {
     return (
-        <div>
-            <MemoContainer/>
-        </div>
+        <Layout className="layout">
+            <Header>
+            </Header>
+            <Content style={{padding: '50px'}}>
+                <div className="site-layout-content">
+                    <MemoContainer/>
+                </div>
+            </Content>
+        </Layout>
+
     );
 }
 

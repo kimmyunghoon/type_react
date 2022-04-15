@@ -5,6 +5,7 @@ import {
   RecoilRoot
 } from 'recoil';
 import MemoPage from "./pages/memo/MemoPage";
+import ExamplesPage from "./pages/examples/ExamplesPage";
 const App = () => {
   return (
       <RecoilRoot>
