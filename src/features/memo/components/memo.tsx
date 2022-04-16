@@ -4,8 +4,8 @@ const Memo = ({
                   width = 300,
                   height = 300,
                   memo = {
-                      title : "none title",
-                      contents : "none contents"
+                      Title : "none title",
+                      Contents : "none contents"
                   },
                   onRemove = (memo:object)=>{}
               }) => {
@@ -25,7 +25,7 @@ const Memo = ({
              <h2 style={{
                 display: "inline",
                 lineBreak: "anywhere"
-            }}>{memo.title}
+            }}>{memo.Title}
              </h2>
             </div>
 
@@ -33,7 +33,7 @@ const Memo = ({
                 height:`${height/5*3}px`,
                 overflowY:"auto",
                 overflowX:"hidden"
-            }}>{memo.contents}</div>
+            }}>{memo.Contents}</div>
             <button style={{
                 position: "relative",
                 float: "right"
