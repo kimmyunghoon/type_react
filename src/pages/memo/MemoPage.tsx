@@ -1,7 +1,6 @@
 import React from 'react';
 import MemoContainer from "../../features/memo/MemoContainer";
 import Layout, {Content, Header} from "antd/lib/layout/layout";
-import {Menu} from 'antd';
 
 const MemoPage = () => {
     return (

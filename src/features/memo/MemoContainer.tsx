@@ -1,21 +1,22 @@
 import React, {Suspense} from 'react';
-import Memo from "./components/memo";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import {memoListSelector} from "./recoil/selectors";
-import {memoContents, memoTitle} from "./recoil/atoms";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {memoContents, memoListState, memoTitle} from "./recoil/atoms";
 
-import {Col, Row} from "antd";
+import { Row } from "antd";
 import Memos from "./components/memos";
+import {updateMemoListSelector} from "./recoil/selectors";
 
 
 const MemoContainer = () => {
     const [title, setTitle] = useRecoilState(memoTitle)
     const [contents, setContents] = useRecoilState(memoContents)
-    const setMemoList =
-        (old: object) => {
-        }
+
+    const setMemoList =useSetRecoilState(updateMemoListSelector)
     // useSetRecoilState(memoListSelector);
-    const onCreateMemo = (memo: { Title: string; Contents: string; }) => setMemoList((old: any[]) => [...old, memo])
+    const onCreateMemo = (memo: { Title: string; Contents: string; }) => {
+        setMemoList((old:object[])=>[...old, memo])
+
+    }
 
     const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
 

@@ -1,34 +1,67 @@
-import {selector} from "recoil";
-import {memoCollection, memoListState, memoType} from "./atoms";
+import {DefaultValue, selector} from "recoil";
+import {memoCollection, memoContents, memoListState, memoTitle, memoType} from "./atoms";
 
-export const memoListSelector = selector({
-    key: 'memoListSelector', // unique ID (with respect to other atoms/selectors)
+export const currentMemoListSelector = selector({
+    key: 'currentMemoListSelector', // unique ID (with respect to other atoms/selectors)
     get: async ({get}) => {
-        console.log("memoListSelector")
-        // atom 가져오기
-         // let list = get(memoListState)
+        console.log("currentMemoListSelector")
         let collection = get(memoCollection)
-        let type = get(memoType)
-         //    return get(memoListState)
-        // Todo
-        //  사용자가 추가되면 해당 사용자 키값에 해당하는 메모를 가져오는 방법으로 변경해야할지도 모르겟음.
-        //  서버에서 리스트 가져오기
-        return await fetch(`http://localhost:8080/firestore/${collection}/${type}`, {
-            method:"GET",
+
+        return await fetch(`http://localhost:8080/firestore/${collection}/common`, {
+            method: "GET",
             mode: 'cors', // no-cors, cors, *same-origin
             headers: {
                 'Content-Type': 'application/json'
             },
         }).then(function (response) {
-            // if (!response.ok) {
-            //     throw new Error('Bad status code from server.');
-            // }
+            if (!response.ok) {
+                throw new Error('Bad status code from server.');
+            }
             return response.json();
-        }).then(function(myJson) {
-            return [JSON.parse(myJson.message)]
+        }).then(function (myJson) {
+            return myJson.message
         });
+    }
+});
+
+
+export const updateMemoListSelector = selector({
+    key: 'updateMemoListSelector', // unique ID (with respect to other atoms/selectors)
+    get: ({get}) => {
+        return get(currentMemoListSelector)
     },
-    set: ({set}, newValue) => {
-        set(memoListState, newValue as [])
+    set: ({get, set}, newValue) => {
+        console.log("updateMemoListSelector")
+        const collection = get(memoCollection)
+        const title = get(memoTitle)
+        const contents = get(memoContents)
+        let type = "none"
+        const list = get(memoListState)
+        let deleteId = "none"
+        // Todo
+        //  set delete action 분리하거나 모듈화 하는것이 좋아보임.
+        if(newValue instanceof Array && list instanceof Array){
+            type = newValue.length > list.length ? "set" : "delete"
+            if(type==="delete")
+                deleteId = list.find(l=>newValue.find(nl=>nl===l)===undefined).Id
+        }
+
+        // console.log({Title: title, Contents: contents})
+        fetch(`http://localhost:8080/firestore/${collection}/${type}`, {
+            method: "POST",
+            mode: 'cors', // no-cors, cors, *same-origin
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id:deleteId,title: title, contents: contents}),
+        }).then(function (response) {
+            if (!response.ok) {
+                throw new Error('Bad status code from server.');
+            }
+            return response.json();
+        }).then(function (myJson) {
+            return myJson
+        });
+        set(memoListState, newValue)
     }
 });

@@ -12,6 +12,7 @@
     "@types/react": "^18.0.4",
     "@types/react-dom": "^18.0.0",
     "antd": "^4.19.5",
+    "axios": "^0.26.1",
     "react": "^18.1.0-next-168da8d55-20220412",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",

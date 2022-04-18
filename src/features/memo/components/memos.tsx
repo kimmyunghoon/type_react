@@ -1,27 +1,25 @@
 import React, {useEffect} from 'react';
 import {Col} from "antd";
 import Memo from "./memo";
-import {useRecoilValue} from "recoil";
-import {memoListSelector} from "../recoil/selectors";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {currentMemoListSelector, updateMemoListSelector} from "../recoil/selectors";
+import {memoListState} from "../recoil/atoms";
 
 const Memos = () => {
-    const memoList = useRecoilValue(memoListSelector) as { Title: string; Contents: string; }[];
-    const setMemoList =
-        (old: object) => {
-        }
-    // useSetRecoilState(memoListSelector);
-    const onRemove = (memo: object) => setMemoList((old: { Title: string; Contents: string; }[]) => old.filter((m: object) => m != memo))
-    useEffect(() => {
-        console.log(memoList)
-    })
+
+    const memoList = useRecoilValue(memoListState)
+    const setMemoList =useSetRecoilState(updateMemoListSelector)
+    // const memoList = useRecoilValue(currentMemoListSelector) as { Title: string; Contents: string; }[];
+    // const setMemoList =  useSetRecoilState(currentMemoListSelector);
+    const onRemove = (memo: object) => setMemoList((old: object[]) => old.filter((m: object) => m !== memo))
 
     return (
         <>
-            {memoList.map((memo, index) =>
+            {(memoList as { Title: string; Contents: string; Id:string }[]).map((memo, index) =>
                 (<>
                     <Col className="gutter-row" span={3}>
 
-                        <Memo key={index} memo={memo} onRemove={onRemove}/>
+                        <Memo key={memo.Id} memo={memo} onRemove={onRemove}/>
 
                     </Col>
                 </>)
