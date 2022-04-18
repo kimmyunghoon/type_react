@@ -1,6 +1,12 @@
 import {atom} from "recoil";
 import {currentMemoListSelector} from "./selectors";
 
+export const requestState = atom({
+    key: 'requestState', // unique ID (with respect to other atoms/selectors)
+    default:false, // default value (aka initial value)
+});
+
+
 export const memoListState = atom({
     key: 'memoListState', // unique ID (with respect to other atoms/selectors)
     default:currentMemoListSelector, // default value (aka initial value)

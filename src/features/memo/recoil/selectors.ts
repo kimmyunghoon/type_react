@@ -1,10 +1,11 @@
-import {DefaultValue, selector} from "recoil";
-import {memoCollection, memoContents, memoListState, memoTitle, memoType} from "./atoms";
+import { selector} from "recoil";
+import {memoCollection, memoContents, memoListState, memoTitle, memoType, requestState} from "./atoms";
 
 export const currentMemoListSelector = selector({
     key: 'currentMemoListSelector', // unique ID (with respect to other atoms/selectors)
     get: async ({get}) => {
         console.log("currentMemoListSelector")
+        get(requestState)
         let collection = get(memoCollection)
 
         return await fetch(`http://localhost:8080/firestore/${collection}/common`, {
@@ -69,6 +70,6 @@ export const updateMemoListSelector = selector({
         }).then(function (myJson) {
             return myJson
         });
-        set(memoListState, newList)
+        set(requestState,!get(requestState))
     }
 });
