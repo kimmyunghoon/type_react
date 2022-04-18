@@ -36,14 +36,21 @@ export const updateMemoListSelector = selector({
         const title = get(memoTitle)
         const contents = get(memoContents)
         let type = "none"
+        let newList: object[] = []
+        if(newValue instanceof Object &&"type" in newValue&&"array" in newValue)
+        {
+            type= newValue['type']
+            newList = newValue['array']
+        }
+
+
         const list = get(memoListState)
         let deleteId = "none"
         // Todo
         //  set delete action 분리하거나 모듈화 하는것이 좋아보임.
-        if(newValue instanceof Array && list instanceof Array){
-            type = newValue.length > list.length ? "set" : "delete"
+        if( list instanceof Array){
             if(type==="delete")
-                deleteId = list.find(l=>newValue.find(nl=>nl===l)===undefined).Id
+                deleteId = list.find(l=>newList.find(nl=>nl===l)===undefined).Id
         }
 
         // console.log({Title: title, Contents: contents})
@@ -62,6 +69,6 @@ export const updateMemoListSelector = selector({
         }).then(function (myJson) {
             return myJson
         });
-        set(memoListState, newValue)
+        set(memoListState, newList)
     }
 });

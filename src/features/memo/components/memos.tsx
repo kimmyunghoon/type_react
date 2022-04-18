@@ -11,7 +11,7 @@ const Memos = () => {
     const setMemoList =useSetRecoilState(updateMemoListSelector)
     // const memoList = useRecoilValue(currentMemoListSelector) as { Title: string; Contents: string; }[];
     // const setMemoList =  useSetRecoilState(currentMemoListSelector);
-    const onRemove = (memo: object) => setMemoList((old: object[]) => old.filter((m: object) => m !== memo))
+    const onRemove = (memo: object) => setMemoList((old: object[]) =>({ type:"delete",array:old.filter((m: object) => m !== memo)}))
 
     return (
         <>

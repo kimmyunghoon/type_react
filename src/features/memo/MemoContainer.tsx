@@ -14,7 +14,7 @@ const MemoContainer = () => {
     const setMemoList =useSetRecoilState(updateMemoListSelector)
     // useSetRecoilState(memoListSelector);
     const onCreateMemo = (memo: { Title: string; Contents: string; }) => {
-        setMemoList((old:object[])=>[...old, memo])
+        setMemoList((old:object[])=>({ type:"set",array:[...old, memo]}))
 
     }
 
