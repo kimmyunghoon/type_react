@@ -5,9 +5,10 @@ const Memo = ({
                   height = 300,
                   memo = {
                       Title : "none title",
-                      Contents : "none contents"
+                      Contents : "none contents",
+                      Id:"none"
                   },
-                  onRemove = (memo:object)=>{}
+                  onRemove = (memo: object)=>{}
               }) => {
     return (
         <div style={{

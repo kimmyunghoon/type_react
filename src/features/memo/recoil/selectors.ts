@@ -1,11 +1,20 @@
 import { selector} from "recoil";
-import {memoCollection, memoContents, memoListState, memoTitle, memoType, requestState} from "./atoms";
+import {
+    memoCollection,
+    memoContents,
+    memoListState,
+    memoTitle,
+    memoType,
+    requestDateState,
+    requestState
+} from "./atoms";
 
 export const currentMemoListSelector = selector({
     key: 'currentMemoListSelector', // unique ID (with respect to other atoms/selectors)
     get: async ({get}) => {
         console.log("currentMemoListSelector")
-        get(requestState)
+        // get(memoListState)
+        get(requestDateState)
         let collection = get(memoCollection)
 
         return await fetch(`http://localhost:8080/firestore/${collection}/common`, {
@@ -34,25 +43,33 @@ export const updateMemoListSelector = selector({
     set: ({get, set}, newValue) => {
         console.log("updateMemoListSelector")
         const collection = get(memoCollection)
-        const title = get(memoTitle)
-        const contents = get(memoContents)
         let type = "none"
-        let newList: object[] = []
-        if(newValue instanceof Object &&"type" in newValue&&"array" in newValue)
+        let memo: { Title: string; Contents: string; Id:string } = {
+            Title: "",
+            Contents: "",
+            Id: ""
+        }
+        if(newValue instanceof Object && "type" in newValue && "data" in newValue)
         {
             type= newValue['type']
-            newList = newValue['array']
+            memo = newValue['data']
         }
 
 
-        const list = get(memoListState)
-        let deleteId = "none"
-        // Todo
-        //  set delete action 분리하거나 모듈화 하는것이 좋아보임.
-        if( list instanceof Array){
-            if(type==="delete")
-                deleteId = list.find(l=>newList.find(nl=>nl===l)===undefined).Id
+        let list : { Title: string; Contents: string; Id:string }[] = get(memoListState)
+
+
+        let newList = (t:string)=> {
+            switch (t) {
+                case 'set':
+                    return [...list, { Title: memo.Title, Contents: memo.Contents, Id:memo.Id }]
+                case 'delete':
+                    return list.filter(l => l !== memo)
+                default:
+                    return "none"
+            }
         }
+
 
         // console.log({Title: title, Contents: contents})
         fetch(`http://localhost:8080/firestore/${collection}/${type}`, {
@@ -61,7 +78,7 @@ export const updateMemoListSelector = selector({
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({id:deleteId,title: title, contents: contents}),
+            body: JSON.stringify({id:memo.Id,title: memo.Title, contents: memo.Contents}),
         }).then(function (response) {
             if (!response.ok) {
                 throw new Error('Bad status code from server.');
@@ -70,6 +87,6 @@ export const updateMemoListSelector = selector({
         }).then(function (myJson) {
             return myJson
         });
-        set(requestState,!get(requestState))
+        set(requestDateState,Date.now())
     }
 });

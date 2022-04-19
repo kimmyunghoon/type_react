@@ -13,8 +13,10 @@ const MemoContainer = () => {
 
     const setMemoList =useSetRecoilState(updateMemoListSelector)
     // useSetRecoilState(memoListSelector);
-    const onCreateMemo = (memo: { Title: string; Contents: string; }) => {
-        setMemoList((old:object[])=>({ type:"set",array:[...old, memo]}))
+    const onCreateMemo = (memo: object) => {
+        setMemoList({
+            type: "set", data: memo
+        })
 
     }
 
@@ -32,7 +34,8 @@ const MemoContainer = () => {
                           onChange={onChangeContents}/>
                 <button type="button" onClick={() => onCreateMemo({
                     Title: title ? title : "none title",
-                    Contents: contents ? contents : "none contents"
+                    Contents: contents ? contents : "none contents",
+                    Id:"new"
                 })}> 추가하기
                 </button>
             </div>

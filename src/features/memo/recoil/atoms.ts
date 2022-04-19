@@ -6,6 +6,11 @@ export const requestState = atom({
     default:false, // default value (aka initial value)
 });
 
+export const requestDateState = atom({
+    key: 'requestDateState', // unique ID (with respect to other atoms/selectors)
+    default:Date.now(), // default value (aka initial value)
+});
+
 
 export const memoListState = atom({
     key: 'memoListState', // unique ID (with respect to other atoms/selectors)
