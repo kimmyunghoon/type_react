@@ -1,36 +1,39 @@
 import {atom} from "recoil";
-import {currentMemoListSelector} from "./selectors";
+import {currentMemoListSelector, updateMemoListSelector} from "./selectors";
 
-export const requestState = atom({
-    key: 'requestState', // unique ID (with respect to other atoms/selectors)
-    default:false, // default value (aka initial value)
-});
 
 export const requestDateState = atom({
-    key: 'requestDateState', // unique ID (with respect to other atoms/selectors)
-    default:Date.now(), // default value (aka initial value)
+    key: 'requestDateState',
+    default:Date.now(),
 });
 
 
 export const memoListState = atom({
-    key: 'memoListState', // unique ID (with respect to other atoms/selectors)
-    default:currentMemoListSelector, // default value (aka initial value)
+    key: 'memoListState',
+    default:currentMemoListSelector,
+});
+export const memoDataState = atom({
+    key: 'memoDataState',
+    default: {},
 });
 
+
 export const memoCollection = atom({
-    key: 'memoCollection', // unique ID (with respect to other atoms/selectors)
-    default: "memos", // default value (aka initial value)
+    key: 'memoCollection',
+    default: "memos",
 });
 export const memoType = atom({
-    key: 'memoType', // unique ID (with respect to other atoms/selectors)
-    default: "common", // default value (aka initial value)
+    key: 'memoType',
+    default: "common",
 });
 
 export const memoTitle = atom({
-    key: 'memoTitle', // unique ID (with respect to other atoms/selectors)
-    default: "none title", // default value (aka initial value)
+    key: 'memoTitle',
+    default: "none title",
 });
 export const memoContents = atom({
-    key: 'memoContents', // unique ID (with respect to other atoms/selectors)
-    default: "none contents", // default value (aka initial value)
+    key: 'memoContents',
+    default: "none contents",
 });
+
+
