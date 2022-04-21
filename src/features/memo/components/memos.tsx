@@ -10,18 +10,16 @@ import {ApiCommandInfo} from "../type/type_class";
 const Memos = () => {
 
     const memoList = useRecoilValue(memoListState)
+
     const setMemoList = useSetRecoilState(currentMemoListSelector)
-    // const update = useRecoilValueLoadable(updateMemoListSelector)
 
-    // const memoList = useRecoilValue(currentMemoListSelector) as { Title: string; Contents: string; }[];
-    // const setMemoList =  useSetRecoilState(currentMemoListSelector);
-    const onRemove = (memo: MemoType) => setUpdate(new ApiCommandInfo(memo,"delete"))
+    const onRemove = (memo: MemoType) => setUpdate(new ApiCommandInfo(memo, "delete"))
 
-    const [update,setUpdate] = useRecoilState(updateMemoListSelector)
+    const [update, setUpdate] = useRecoilState(updateMemoListSelector)
 
     useEffect(() => {
         if (update && update.type === "result" && update.list) {
-                setMemoList(update.list)
+            setMemoList(update.list)
         }
     }, [update])
 
