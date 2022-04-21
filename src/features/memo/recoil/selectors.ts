@@ -4,7 +4,8 @@ import {
     memoDataState,
     memoListState,
 } from "./atoms";
-import {ApiCommand, MemoType} from "./interface";
+import {ApiCommand, MemoType} from "../type/interface";
+import {MemoInfo} from "../type/type_class";
 //
 
 export const currentMemoListSelector = selector<MemoType[]>({
@@ -41,15 +42,15 @@ export const updateMemoListSelector = selector<ApiCommand>({
     key: 'updateMemoListSelector',
     get: async ({get}) => {
         console.log("updateMemoListSelector")
-        const memoData = get(memoDataState)
+        const memoData : ApiCommand = get(memoDataState)
         const collection = get(memoCollection)
         let values:ApiCommand  = {
             type:"result",
-            data: {}
+            data: new MemoInfo()
         }
-        if(memoData instanceof Object  &&"type" in memoData && "data" in memoData) {
+        if("type" in memoData && "data" in memoData) {
             let type = memoData["type"]
-            let memo: { Title: string; Contents: string; Id: string } = memoData['data']
+            let memo :MemoType  = memoData['data']
 
             values.list=  await fetch(`http://localhost:8080/firestore/${collection}/${type}`, {
                 method: "POST",

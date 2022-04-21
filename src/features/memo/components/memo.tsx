@@ -1,14 +1,16 @@
 import React from 'react';
+import {MemoType} from "../type/interface";
 
 const Memo = ({
                   width = 300,
                   height = 300,
                   memo = {
-                      Title : "none title",
-                      Contents : "none contents",
-                      Id:"none"
+                      Title: "none title",
+                      Contents: "none contents",
+                      Id: "none"
                   },
-                  onRemove = (memo: object)=>{}
+                  onRemove = (memo: MemoType) => {
+                  }
               }) => {
     return (
         <div style={{
@@ -19,26 +21,27 @@ const Memo = ({
             margin: "25px"
         }}>
             <div style={{
-                overflowY:"hidden",
-                maxHeight:`${40}px`,
+                overflowY: "hidden",
+                maxHeight: `${40}px`,
                 maxWidth: `${width}px`,
             }}>
-             <h2 style={{
-                display: "inline",
-                lineBreak: "anywhere"
-            }}>{memo.Title}
-             </h2>
+                <h2 style={{
+                    display: "inline",
+                    lineBreak: "anywhere"
+                }}>{memo.Title}
+                </h2>
             </div>
 
             <div style={{
-                height:`${height/5*3}px`,
-                overflowY:"auto",
-                overflowX:"hidden"
+                height: `${height / 5 * 3}px`,
+                overflowY: "auto",
+                overflowX: "hidden"
             }}>{memo.Contents}</div>
             <button style={{
                 position: "relative",
                 float: "right"
-            }} type="button" onClick={()=>onRemove(memo)}>메모제거</button>
+            }} type="button" onClick={() => onRemove(memo)}>메모제거
+            </button>
         </div>
     );
 }
