@@ -1,30 +1,35 @@
-import React, {useEffect} from 'react';
+import React, {Suspense, useEffect, useMemo} from 'react';
 import {Col} from "antd";
 import Memo from "./memo";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState} from "recoil";
 import {currentMemoListSelector, updateMemoListSelector} from "../recoil/selectors";
 import {memoListState} from "../recoil/atoms";
+import {MemoType} from "../recoil/interface";
 
 const Memos = () => {
 
     const memoList = useRecoilValue(memoListState)
-    const setMemoList =useSetRecoilState(currentMemoListSelector)
-    const update = useRecoilValue(updateMemoListSelector)
+    const setMemoList = useSetRecoilState(currentMemoListSelector)
+    // const update = useRecoilValueLoadable(updateMemoListSelector)
+
     // const memoList = useRecoilValue(currentMemoListSelector) as { Title: string; Contents: string; }[];
     // const setMemoList =  useSetRecoilState(currentMemoListSelector);
-    const onRemove = (memo: object) => setMemoList({
+    const onRemove = (memo: object) => setUpdate({
             type: "delete", data: memo
         }
     )
-    useEffect(()=>{
-        if(update){
-            setMemoList(update)
+
+    const [update,setUpdate] = useRecoilState(updateMemoListSelector)
+    useEffect(() => {
+        if (update && update.type === "result" && update.list) {
+                setMemoList(update.list)
+
         }
-    },[update])
+    }, [update])
 
     return (
         <>
-            {(memoList as { Title: string; Contents: string; Id: string }[]).map((memo, index) =>
+            {memoList.map((memo, index) =>
                 (<>
                     <Col key={index} className="gutter-row" span={3}>
 

@@ -1,5 +1,7 @@
 import {atom} from "recoil";
 import {currentMemoListSelector, updateMemoListSelector} from "./selectors";
+import {MemoType} from "./interface";
+
 
 
 export const requestDateState = atom({
@@ -8,7 +10,7 @@ export const requestDateState = atom({
 });
 
 
-export const memoListState = atom({
+export const memoListState = atom<MemoType[]>({
     key: 'memoListState',
     default:currentMemoListSelector,
 });

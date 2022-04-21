@@ -4,14 +4,14 @@ import {memoContents, memoListState, memoTitle} from "./recoil/atoms";
 
 import { Row } from "antd";
 import Memos from "./components/memos";
-import {currentMemoListSelector} from "./recoil/selectors";
+import {currentMemoListSelector, updateMemoListSelector} from "./recoil/selectors";
 
 
 const MemoContainer = () => {
     const [title, setTitle] = useRecoilState(memoTitle)
     const [contents, setContents] = useRecoilState(memoContents)
 
-    const setMemoList=useSetRecoilState(currentMemoListSelector)
+    const setMemoList=useSetRecoilState(updateMemoListSelector)
     // useSetRecoilState(memoListSelector);
     const onCreateMemo = (memo: object) => {
         setMemoList({
@@ -23,6 +23,7 @@ const MemoContainer = () => {
     const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)
 
     const onChangeContents = (e: React.ChangeEvent<HTMLTextAreaElement>) => setContents(e.target.value)
+
     return (
         <>
 
@@ -40,7 +41,7 @@ const MemoContainer = () => {
                 </button>
             </div>
             <Row gutter={[24, 24]}>
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={ <div>Loading...</div>}>
                     <Memos />
                 </Suspense>
             </Row>

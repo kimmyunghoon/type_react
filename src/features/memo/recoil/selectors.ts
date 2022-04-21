@@ -1,16 +1,15 @@
 import {DefaultValue, selector} from "recoil";
 import {
     memoCollection,
-     memoDataState,
+    memoDataState,
     memoListState,
-    requestDateState,
 } from "./atoms";
+import {ApiCommand, MemoType} from "./interface";
 //
 
-export const currentMemoListSelector = selector({
+export const currentMemoListSelector = selector<MemoType[]>({
     key: 'currentMemoListSelector', // unique ID (with respect to other atoms/selectors)
     get: async ({get}) => {
-        console.log("currentMemoListSelector")
         let collection = get(memoCollection)
 
         return await fetch(`http://localhost:8080/firestore/${collection}/common`, {
@@ -33,29 +32,26 @@ export const currentMemoListSelector = selector({
         })
     },
     set: ({get, set, reset}, newValue) => {
-        if(newValue instanceof Array ){
-            console.log(newValue)
+        console.log(newValue)
             set(memoListState, newValue)
-        }
-        else if(newValue instanceof Object){
-            set(memoDataState, newValue)
-        }
     }
 });
 
-
-export const updateMemoListSelector = selector({
+export const updateMemoListSelector = selector<ApiCommand>({
     key: 'updateMemoListSelector',
     get: async ({get}) => {
         console.log("updateMemoListSelector")
         const memoData = get(memoDataState)
         const collection = get(memoCollection)
-        let values =null
+        let values:ApiCommand  = {
+            type:"result",
+            data: {}
+        }
         if(memoData instanceof Object  &&"type" in memoData && "data" in memoData) {
             let type = memoData["type"]
             let memo: { Title: string; Contents: string; Id: string } = memoData['data']
 
-            values=  await fetch(`http://localhost:8080/firestore/${collection}/${type}`, {
+            values.list=  await fetch(`http://localhost:8080/firestore/${collection}/${type}`, {
                 method: "POST",
                 mode: 'cors', // no-cors, cors, *same-origin
                 headers: {
@@ -73,5 +69,8 @@ export const updateMemoListSelector = selector({
         }
         return values
     },
+    set: ({get, set, reset}, newValue) => {
+        set(memoDataState, newValue)
 
+    }
 });
