@@ -34,9 +34,7 @@ const MemoContainer = () => {
                 </button>
             </div>
             <Row gutter={[24, 24]}>
-                <Suspense fallback={<div>Loading...</div>}>
-                    <Memos/>
-                </Suspense>
+                <Memos/>
             </Row>
 
         </>

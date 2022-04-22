@@ -9,6 +9,6 @@ export interface MemoType {
 export interface ApiCommand {
     type:string;
     data:MemoType;
-    list?:MemoType[];
+    list?:MemoType[] | [];
 }
 

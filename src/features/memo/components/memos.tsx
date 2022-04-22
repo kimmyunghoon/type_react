@@ -1,7 +1,13 @@
 import React, {Suspense, useEffect, useMemo} from 'react';
-import {Col} from "antd";
+import {Col, Spin} from "antd";
 import Memo from "./memo";
-import {useRecoilState, useRecoilValue, useRecoilValueLoadable, useSetRecoilState} from "recoil";
+import {
+    useRecoilState,
+    useRecoilStateLoadable,
+    useRecoilValue,
+    useRecoilValueLoadable,
+    useSetRecoilState
+} from "recoil";
 import {currentMemoListSelector, updateMemoListSelector} from "../recoil/selectors";
 import {memoListState} from "../recoil/atoms";
 import {MemoType} from "../type/interface";
@@ -9,29 +15,33 @@ import {ApiCommandInfo} from "../type/type_class";
 
 const Memos = () => {
 
-    const memoList = useRecoilValue(memoListState)
+    const userNameLoadable = useRecoilValueLoadable(memoListState)
 
     const setMemoList = useSetRecoilState(currentMemoListSelector)
 
     const onRemove = (memo: MemoType) => setUpdate(new ApiCommandInfo(memo, "delete"))
 
-    const [update, setUpdate] = useRecoilState(updateMemoListSelector)
+    const [updateLoadable, setUpdate] = useRecoilStateLoadable(updateMemoListSelector)
 
     useEffect(() => {
-        if (update && update.type === "result" && update.list) {
-            setMemoList(update.list)
+        if (updateLoadable && updateLoadable.state === "hasValue" && updateLoadable.contents.type === "result" && updateLoadable.contents.list) {
+            setMemoList(updateLoadable.contents.list)
         }
-    }, [update])
+    }, [updateLoadable])
 
     return (
         <>
-            {memoList.map((memo, index) =>
-                (<>
-                    <Col key={index} className="gutter-row" span={3}>
-                        <Memo key={memo.Id} memo={memo} onRemove={onRemove}/>
-                    </Col>
-                </>)
-            )}
+            {(userNameLoadable.state === "loading"||updateLoadable.state === "loading") && <div>데이터 갱신중</div>}
+         {
+             userNameLoadable.state === "hasValue" && (
+                 userNameLoadable.contents.map((memo, index) =>
+                     (
+                         <Col key={index} className="gutter-row" span={3}>
+                             <Memo key={memo.Id} memo={memo} onRemove={onRemove}/>
+                         </Col>
+                     )
+                 ))
+         }
         </>
     );
 }

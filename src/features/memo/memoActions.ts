@@ -1,6 +1,4 @@
 import {MemoType} from "./type/interface";
-import {MemoInfo} from "./type/type_class";
-
 
 export const modifyMemo = async (collection: string, type: string, memo: MemoType): Promise<MemoType[]> =>
     await fetch(`http://localhost:8080/firestore/${collection}/${type}`, {

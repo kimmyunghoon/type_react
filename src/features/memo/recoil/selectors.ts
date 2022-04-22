@@ -7,17 +7,16 @@ import {
 import {ApiCommand, MemoType} from "../type/interface";
 import {MemoInfo} from "../type/type_class";
 import {modifyMemo, retrieveMemo} from "../memoActions";
-//
+
 
 export const currentMemoListSelector = selector<MemoType[]>({
     key: 'currentMemoListSelector', // unique ID (with respect to other atoms/selectors)
     get: async ({get}) => {
         let collection = get(memoCollection)
-        return retrieveMemo(collection)
+        return await retrieveMemo(collection)
     },
     set: ({get, set, reset}, newValue) => {
-        console.log(newValue)
-            set(memoListState, newValue)
+        set(memoListState, newValue)
     }
 });
 
@@ -42,6 +41,5 @@ export const updateMemoListSelector = selector<ApiCommand>({
     },
     set: ({get, set, reset}, newValue) => {
         set(memoDataState, newValue)
-
     }
 });
