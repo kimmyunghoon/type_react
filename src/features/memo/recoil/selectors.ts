@@ -31,7 +31,7 @@ export const updateMemoListSelector = selector<ApiCommand>({
             type:"result",
             data: new MemoInfo()
         }
-        if("type" in memoData && "data" in memoData && type !=="none") {
+        if(type !=="none") {
 
             let memo :MemoType  = memoData['data']
 

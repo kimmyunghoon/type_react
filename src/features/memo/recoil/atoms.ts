@@ -1,6 +1,6 @@
 import {atom} from "recoil";
 import {ApiCommand, MemoType} from "../type/interface";
-import {MemoInfo} from "../type/type_class";
+import {ApiCommandInfo, MemoInfo} from "../type/type_class";
 import {currentMemoListSelector} from "./selectors";
 
 export const memoListState = atom<MemoType[]>({
@@ -10,10 +10,7 @@ export const memoListState = atom<MemoType[]>({
 });
 export const memoDataState = atom<ApiCommand>({
     key: 'memoDataState',
-    default: {
-        type:"none",
-        data: new MemoInfo("","","")
-    },
+    default: new ApiCommandInfo(),
 });
 
 export const memoCollection = atom<string>({
