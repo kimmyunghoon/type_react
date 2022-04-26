@@ -1,5 +1,6 @@
 
 export interface MemoType {
+    [key: string]: any;
     Title: string;
     Contents: string;
     Id: string;

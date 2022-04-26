@@ -39,7 +39,8 @@ const Memo = ({
             }}>{memo.Contents}</div>
             <button style={{
                 position: "relative",
-                float: "right"
+                float: "right",
+                zIndex:100,
             }} type="button" onClick={() => onRemove(memo)}>메모제거
             </button>
         </div>

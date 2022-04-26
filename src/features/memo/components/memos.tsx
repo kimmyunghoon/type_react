@@ -31,17 +31,20 @@ const Memos = () => {
 
     return (
         <>
-            {(userNameLoadable.state === "loading"||updateLoadable.state === "loading") && <div>데이터 갱신중</div>}
-         {
-             userNameLoadable.state === "hasValue" && (
-                 userNameLoadable.contents.map((memo, index) =>
-                     (
-                         <Col key={index} className="gutter-row" span={3}>
-                             <Memo key={memo.Id} memo={memo} onRemove={onRemove}/>
-                         </Col>
-                     )
-                 ))
-         }
+            {(userNameLoadable.state === "loading" || updateLoadable.state === "loading") &&
+                    <div style={{zIndex:1000,position:"absolute", backgroundColor:"gray", opacity:0.5, color:"white",width:"100%",height:"100%",fontSize:"32px",textAlign:"center"}}>데이터 갱신중</div>}
+                 {
+                    userNameLoadable.state === "hasValue" && (
+
+                        userNameLoadable.contents.map((memo, index) =>
+                            (
+                                <Col key={index} className="gutter-row" span={3}>
+                                    <Memo key={memo.Id} memo={memo} onRemove={onRemove}/>
+                                </Col>
+                            )
+                        ))
+
+                }
         </>
     );
 }

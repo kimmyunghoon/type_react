@@ -3,11 +3,13 @@ import {ApiCommand, MemoType} from "../type/interface";
 import {ApiCommandInfo, MemoInfo} from "../type/type_class";
 import {currentMemoListSelector} from "./selectors";
 
+
+
 export const memoListState = atom<MemoType[]>({
     key: 'memoListState',
     default:currentMemoListSelector,
-
 });
+
 export const memoDataState = atom<ApiCommand>({
     key: 'memoDataState',
     default: new ApiCommandInfo(),

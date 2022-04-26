@@ -1,5 +1,5 @@
 import React, {Suspense} from 'react';
-import {useRecoilState, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilStateLoadable, useSetRecoilState} from "recoil";
 import {memoContents, memoListState, memoTitle} from "./recoil/atoms";
 
 import {Row} from "antd";
@@ -21,9 +21,10 @@ const MemoContainer = () => {
 
     const onChangeContents = (e: React.ChangeEvent<HTMLTextAreaElement>) => setContents(e.target.value)
 
-    return (
-        <>
+    const [updateLoadable] = useRecoilStateLoadable(updateMemoListSelector)
 
+    return (
+        <div style={{pointerEvents:`${updateLoadable.state === "loading" ? "none":"auto"}`}}>
             <div style={{display: "flex"}}>
                 Title :
                 <input maxLength={10} value={title} placeholder={"title"} onChange={onChangeTitle}/>
@@ -36,8 +37,7 @@ const MemoContainer = () => {
             <Row gutter={[24, 24]}>
                 <Memos/>
             </Row>
-
-        </>
+        </div>
     );
 }
 
