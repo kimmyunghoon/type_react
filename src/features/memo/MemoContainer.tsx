@@ -1,10 +1,10 @@
-import React, {Suspense} from 'react';
-import {useRecoilState, useRecoilStateLoadable, useSetRecoilState} from "recoil";
-import {memoContents, memoListState, memoTitle} from "./recoil/atoms";
+import React from 'react';
+import {useRecoilState, useRecoilValueLoadable, useSetRecoilState} from "recoil";
+import {memoContents, memoTitle} from "./recoil/atoms";
 
 import {Row} from "antd";
 import Memos from "./components/memos";
-import {currentMemoListSelector, updateMemoListSelector} from "./recoil/selectors";
+import { updateMemoListSelector} from "./recoil/selectors";
 import {ApiCommandInfo, MemoInfo} from "./type/type_class";
 import {MemoType} from "./type/interface";
 
@@ -21,7 +21,7 @@ const MemoContainer = () => {
 
     const onChangeContents = (e: React.ChangeEvent<HTMLTextAreaElement>) => setContents(e.target.value)
 
-    const [updateLoadable] = useRecoilStateLoadable(updateMemoListSelector)
+    const updateLoadable = useRecoilValueLoadable(updateMemoListSelector)
 
     return (
         <div style={{pointerEvents:`${updateLoadable.state === "loading" ? "none":"auto"}`}}>

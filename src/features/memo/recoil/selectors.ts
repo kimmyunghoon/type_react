@@ -1,4 +1,4 @@
-import {DefaultValue, selector} from "recoil";
+import { selector} from "recoil";
 import {
     memoCollection,
     memoDataState,

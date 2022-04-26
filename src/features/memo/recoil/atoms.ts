@@ -1,6 +1,6 @@
 import {atom} from "recoil";
 import {ApiCommand, MemoType} from "../type/interface";
-import {ApiCommandInfo, MemoInfo} from "../type/type_class";
+import {ApiCommandInfo} from "../type/type_class";
 import {currentMemoListSelector} from "./selectors";
 
 

@@ -2,9 +2,7 @@ import React, {Suspense, useEffect, useMemo} from 'react';
 import {Col, Spin} from "antd";
 import Memo from "./memo";
 import {
-    useRecoilState,
     useRecoilStateLoadable,
-    useRecoilValue,
     useRecoilValueLoadable,
     useSetRecoilState
 } from "recoil";
