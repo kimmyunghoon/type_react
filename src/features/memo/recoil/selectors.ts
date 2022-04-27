@@ -5,7 +5,7 @@ import {
     memoListState,
 } from "./atoms";
 import {ApiCommand, MemoType} from "../type/interface";
-import {MemoInfo} from "../type/type_class";
+import {ApiCommandInfo, MemoInfo} from "../type/type_class";
 import {modifyMemo, retrieveMemo} from "../memoActions";
 
 
@@ -27,14 +27,9 @@ export const updateMemoListSelector = selector<ApiCommand>({
         const memoData : ApiCommand = get(memoDataState)
         const collection = get(memoCollection)
         let type = memoData["type"]
-        let values:ApiCommand  = {
-            type:"result",
-            data: new MemoInfo()
-        }
+        let values:ApiCommand  = new ApiCommandInfo(new MemoInfo(),"result")
         if(type !=="none") {
-
             let memo :MemoType  = memoData['data']
-
             values.list =  await modifyMemo(collection,type,memo);
         }
         return values
