@@ -1,8 +1,9 @@
 
 import {WaterType} from "./type/interface";
+import {WaterTypeInfo} from "./type/type_class";
 
-export const setWaterRecord = async (collection: string, type: string, water: WaterType): Promise<WaterType> =>
-    await fetch(`http://localhost:8080/firestore/${collection}/${type}`, {
+export const setWaterRecord = async (water: WaterType): Promise<WaterType> =>
+    await fetch(`http://localhost:8080/firestore/waters/set`, {
         method: "POST",
         mode: 'cors', // no-cors, cors, *same-origin
         headers: {
@@ -19,11 +20,11 @@ export const setWaterRecord = async (collection: string, type: string, water: Wa
         return myJson.message
     }).catch((error) => {
         console.error('실패:', error);
-        return []
+        return water
     })
 
 export const getWaterRecord = async (water: WaterType): Promise<WaterType> =>
-    await fetch(`http://localhost:8080/firestore/waters`, {
+    await fetch(`http://localhost:8080/firestore/waters/get`, {
         method: "POST",
         mode: 'cors', // no-cors, cors, *same-origin
         headers: {
@@ -34,10 +35,11 @@ export const getWaterRecord = async (water: WaterType): Promise<WaterType> =>
         if (!response.ok) {
             throw new Error('Bad status code from server.');
         }
+        console.error(response.json())
         return response.json();
     }).then(function (myJson) {
         return myJson.message
     }).catch((error) => {
         console.error('실패:', error);
-        return 0
+        return water
     })
