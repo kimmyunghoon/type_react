@@ -1,25 +1,19 @@
 import React from 'react';
-import {Button, Progress} from "antd";
+import {Progress} from "antd";
 import Calendar from "react-calendar";
-import {useRecoilState} from "recoil";
-import {currentDateState, waterState} from "../recoil/atoms";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {recordDateValue, recordDateWaterValue} from "../recoil/atoms";
+import {currentRecordWater} from "../recoil/selectors";
 
-const WatersRecord = () => {
+const WatersRecord =()=> {
 
-    const [date, setDate] = useRecoilState(currentDateState);
-    const [waterValue, setWaterValue] = useRecoilState(waterState);
-
+    const [value, onChange] = useRecoilState(recordDateValue);
+    const waters = useRecoilValue(recordDateWaterValue); // 추후 loadable로 바꾸기기
+    const setWaterRecord = useSetRecoilState(currentRecordWater);
     return (
         <div id={"progress"}>
-            <div style={{width: "50%", backgroundColor: "white", padding: "10px"}}>
-                <Calendar onChange={setDate} value={date}/>
-            </div>
-            <div style={{width: "50%", backgroundColor: "white", padding: "10px"}}>
-                물 섭취량 :
-                <Button />
-                <Button/>
-                <Progress type="circle" percent={waterValue}/>
-            </div>
+            <Calendar onChange={onChange} maxDate={new Date()} value={value} />
+            <Progress type="circle" percent={waters.Value} />
         </div>
     );
 }

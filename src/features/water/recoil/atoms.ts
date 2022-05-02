@@ -1,13 +1,12 @@
 import {atom} from "recoil";
-import {MemoType} from "../../memo/type/interface";
-import {currentMemoListSelector} from "../../memo/recoil/selectors";
+import {WaterType} from "../type/interface";
+import {WaterTypeInfo} from "../type/type_class";
 
-export const currentDateState = atom<Date>({
-    key: 'currentDateState',
+export const recordDateValue = atom<Date>({
+    key: 'recordDateValue',
     default:new Date(),
 });
-
-export const waterState = atom<number>({
-    key: 'waterState',
-    default:0,
+export const recordDateWaterValue = atom<WaterType>({
+    key: 'recordDateWaterValue',
+    default:new WaterTypeInfo(new Date()),
 });
