@@ -1,7 +1,7 @@
 
 export interface WaterType {
 
-    Date: number;
+    Date: string;
     Value:number;
 }
 

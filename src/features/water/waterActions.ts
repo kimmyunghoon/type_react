@@ -1,6 +1,5 @@
 
 import {WaterType} from "./type/interface";
-import {WaterTypeInfo} from "./type/type_class";
 
 export const setWaterRecord = async (water: WaterType): Promise<WaterType> =>
     await fetch(`http://localhost:8080/firestore/waters/set`, {
@@ -35,7 +34,7 @@ export const getWaterRecord = async (water: WaterType): Promise<WaterType> =>
         if (!response.ok) {
             throw new Error('Bad status code from server.');
         }
-        console.error(response.json())
+        console.log(response.json())
         return response.json();
     }).then(function (myJson) {
         return myJson.message
