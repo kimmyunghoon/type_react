@@ -34,9 +34,9 @@ export const getWaterRecord = async (water: WaterType): Promise<WaterType> =>
         if (!response.ok) {
             throw new Error('Bad status code from server.');
         }
-        console.log(response.json())
-        return response.json();
+        return response.clone().json();
     }).then(function (myJson) {
+        console.log(myJson.message)
         return myJson.message
     }).catch((error) => {
         console.error('실패:', error);

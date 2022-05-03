@@ -36,7 +36,6 @@ export const retrieveMemo = async (collection: string): Promise<MemoType[]> =>
         }
         return response.json();
     }).then(function (myJson) {
-        console.log("current ",myJson.message)
         return myJson.message
     }).catch((error) => {
         console.error('실패:', error);

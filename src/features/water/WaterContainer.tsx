@@ -1,10 +1,10 @@
 import React from 'react';
 import WatersRecord from "./components/WatersRecord";
 
-const WaterContainer =()=> {
+const WaterContainer = () => {
     return (
-        <div >
-            <WatersRecord/>
+        <div>
+                <WatersRecord/>
         </div>
     );
 }
